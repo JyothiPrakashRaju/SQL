@@ -1,0 +1,125 @@
+-- ** DML and TCL commands **
+-------------------------------------
+
+-- By default Snowflake automatically commits the data.
+-- To turn off that, we use the following command. (TCL)
+
+ALTER SESSION SET AUTOCOMMIT = FALSE;
+
+-- In that command we are making it false to auto commint.
+-- So we have to commit the changes manually.
+
+-- Creating database 'Workers' (DDL)
+CREATE DATABASE IF NOT EXISTS Workers;
+
+-- Use 'USE' command to work with current database (DDL)
+USE DATABASE Workers;
+
+-- Creating table in 'Workers' database as 'Worker' (DDL)
+CREATE TABLE worker
+(Worker_id int,
+First_name VARCHAR,
+Last_name VARCHAR,
+Salary int,
+Joining_date date,
+Department VARCHAR);
+ 
+-- Inserting single data into the table (DML)
+INSERT INTO worker
+VALUES
+(1, 'Monika', 'Arora', 100000, '2014-02-20', 'HR');
+
+
+-- Inserting Multiple Data to 'Worker' Table (DML)
+INSERT INTO worker
+Values
+(2, 'Niharika', 'Verma', 80000, '2014-06-11', 'Admin'),
+(3, 'Vishal', 'Singhal', 300000, '2014-02-20', 'HR'),
+(4, 'Amitah', 'Singh', 500000, '2014-02-20', 'Admin'),
+(5, 'Vivek', 'Bhati', 500000, '2014-06-11', 'Admin'),
+(6, 'Vipul', 'Diwan', 200000, '2014-06-11', 'Account'),
+(7, 'Satish', 'Kumar', 75000, '2014-01-20', 'Account'),
+(8, 'Geetika', 'Chauhan', 90000, '2014-04-11', 'Admin'),
+(9, 'Agepi', 'Argon', 90000, '2015-04-10', 'Admin'),
+(10, 'Moe', 'Acharya', 65000, '2015-04-11', 'HR'),
+(11, 'Nayah', 'Laghari', 75000, '2014-03-20', 'Account'),
+(12, 'Jai', 'Patel', 85000, '2014-03-21', 'HR');
+
+-- Once after the data was entered into the table.
+-- We have to commit the changes with 'COMMIT' keyword. (TCL)
+COMMIT;
+
+-- Deleting the records. (DML)
+DELETE FROM worker;
+
+-- Roll back i.e Getting back the deleted data. (TCL)
+ROLLBACK;
+
+-- Retriving all data from 'worker' table. (DQL)
+SELECT * FROM worker;
+
+-- Determining who are related to which depaetment with the Worker_ID, First_name, Last_name and Department. (DQL)
+SELECT Worker_id, First_name, Last_name, Department
+FROM Worker
+ORDER BY Department;
+
+-- Getting First_name and Last_name of Workers as Full_name using 'CURRENT_DATEstring conatenation' and 'Alias'
+SELECT 
+First_name, 
+Last_name, 
+First_name||' '||Last_name AS Full_name
+FROM Worker;
+
+--Determining how many persons are there is each and every department. (DQL)
+SELECT Department, COUNT(*) as Number_of_employees 
+FROM worker
+GROUP BY department;
+
+-- Getting the workers who was getting slary more than '60000' (DQL)
+SELECT * FROM Worker
+WHERE Salary > 60000;
+
+-- Retriving the workers who was getting above '50000' and below '90000' (DQL)
+-- Starting with least salary to high.
+SELECT * FROM Worker
+WHERE Salary BETWEEN 50000 AND 90000
+ORDER BY Salary;
+
+-- Retriving the Top 3 Workers who was getting highest salary among the data. (DQL)
+SELECT * FROM Worker
+ORDER BY Salary DESC, Worker_ID DESC
+LIMIT 3;
+
+-- Retriving data of weokers who joined in same month.
+-- Retrieve workers who joined in the between June and august months.
+SELECT * FROM Worker 
+WHERE Joining_date BETWEEN '2014-06-01' AND '2014-08-31';
+
+-- Retriving Yearly salary of all Workers.
+SELECT worker_id,
+First_name ||' '|| Last_name AS Full_name,
+Department, Salary AS Monthly_salary,
+Salary * 12 AS Yearly_Salary,
+Joining_date, 
+FROM Worker;
+
+-- Committing upto this, So we can getback data. (TCL)
+COMMIT;
+
+-- Deleting Table (DML)
+DELETE FROM Worker;
+
+-- Rollbacking
+ROLLBACK; 
+
+-- Truncate Table (DDL)
+TRUNCATE TABLE Worker;
+-- In snowflake After using of Truncate DDL statement we can revoke the data.
+
+ROLLBACK;
+
+-- Drop DATABASE refers to Delete the entire table structure along with data which we cannot Revoke/rollback. (DDL)
+DROP DATABASE Workers;
+
+-- After we use rollback to check weather the data will be rollback or not. (TCL)
+ROLLBACK;
