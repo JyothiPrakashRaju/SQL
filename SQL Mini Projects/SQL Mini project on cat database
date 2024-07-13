@@ -1,0 +1,75 @@
+-- Creating cats database (DDL)
+CREATE DATABASE IF NOT EXISTS cats;
+
+-- Creating cats table (DDL)
+CREATE TABLE cats
+(cat_id int PRIMARY KEY,
+name VARCHAR(100),
+breed VARCHAR(100)
+);
+
+-- Altering table. Adding column called 'age' with int data type. (DDL)
+ALTER TABLE cats ADD age INT;
+
+-- Inserting multiple records in cats table. (DML)
+INSERT INTO cats
+values
+(1, 'Ringo', 'Tabby', 4),
+(2, 'Cindy', 'Maine coon', 10),
+(3, 'Dumbledoor', 'Maine coon', 11),
+(4, 'Egg', 'Persian', 4),
+(5, 'Misty', 'Tabby', 13),
+(6, 'George Michael', 'ragdoll', 9);
+
+-- Inserting Single record into table. (DML)
+INSERT INTO cats
+Values
+(7, 'Jackson', 'Sphynx', 7);
+
+-- Quering/Retriving all data (DQL)
+SELECT * FROM cats;
+
+-- Writing Query that selects cats_id. (DQL)
+SELECT cat_id FROM cats;
+
+-- Writing Query that selects Name and Breed. (DQL)
+SELECT name, breed FROM cats;
+
+-- Writing query that should return 'Tabby breed' cats with showing only name and age columns. (DQL)
+SELECT name, age FROM cats
+WHERE breed = 'Tabby';
+
+-- Writing query that should return data where cat_id and age same. (DQL)
+SELECT cat_id, age FROM cats
+WHERE cat_id = age;
+
+-- Updating Jackson's name to 'Jack'. (DML)
+UPDATE cats
+SET name = 'Jack'
+WHERE name = 'Jackson';
+
+-- Checking
+SELECT * FROM cats;
+
+-- Changing Ringo breed to 'British shorthair'. (DML)
+UPDATE cats 
+SET breed = 'British shorthair'
+WHERE name = 'Ringo';
+
+SELECT * FROM cats;
+
+-- Updating main coon breed cat's age to 12. (DML)
+UPDATE cats 
+SET age = 12
+WHERE breed = 'Maine coon';
+
+-- Deleting all 4 year old cats. (DML)
+DELETE FROM cats
+WHERE age = 4;
+
+-- Deleting cats whose age is same as their cat_id; (DML)
+DELETE FROM cats
+WHERE cat_id = age;
+
+-- Deleting all data (DML) DELETE command delets only data not table structure.
+DELETE FROM cats;
